@@ -1,0 +1,7 @@
+{
+  "name": "regada",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "regada",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
