@@ -3,9 +3,10 @@
 	"appName": "regada",
 	"webDir": "build",
 	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"cordova": {},
 	"server": {
-		"url": "http://192.168.15.100:8100",
-		"cleartext": true,
-		"originalUrl": "http://192.168.0.100:8181"
+		"url": "http://192.168.226.243:3000",
+		"cleartext": true
 	}
 }

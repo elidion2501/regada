@@ -15,221 +15,82 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React from "react";
-type Item = {
-  src: string;
-  text: string;
-};
+import { useEffect, useState } from "react";
+
 const Servomotors = () => {
-  const items: Item[] = [
-    { src: "http://placekitten.com/g/300/200", text: "a picture of a cat" },
-  ];
+  const [servoMotors, setServoMotors] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("http://192.168.226.243:8000/api/servomotors", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            throw new Error(data);
+          });
+        }
+      })
+      .then((data) => {
+        setServoMotors(data.data);
+      })
+      .catch((err) => {
+        // alert(err.message);
+      });
+  }, []);
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonButton color="dark" slot="start">
-            <IonBackButton color="light"/>
+            <IonBackButton color="light" />
           </IonButton>
           <IonTitle>Regada</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <h1 className="ion-text-center">Tu budu filtre</h1>
+        <IonRouterLink routerLink="/servo/1">Konfigurovat</IonRouterLink>
         <IonList>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
+          {servoMotors &&
+            servoMotors.map((servo) => {
+              return (
+                <IonItem key={servo.id}>
+                  <IonCard>
+                    <IonCardHeader>
+                      <IonImg src={servo.img_path} />
+                      <IonCardTitle>{servo.name}</IonCardTitle>
+                    </IonCardHeader>
 
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-                <IonRouterLink routerLink="/servo/1">
-                  Konfigurovat
-                </IonRouterLink>
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
-          <IonItem>
-            <IonCard>
-              <IonCardHeader>
-                <IonImg src={items[0].src} />
-                <IonCardTitle>
-                  Elektrický servopohon jednootáčkový SP MIKRO
-                </IonCardTitle>
-              </IonCardHeader>
-
-              <IonCardContent>
-                Typové číslo: 260 <br />
-                Max. zaťažovací moment: 8 [Nm] <br />
-                Doba prestavenia: 120 [s/90°] <br />
-                Pracovný uhol: 60° až 120° <br />
-                Teplota okolia: -20 až +60 [°C] <br />
-                Krytie: IP 65 <br />
-                Pracovná poloha: ľubovoľná <br />
-                Hmotnosť: 0,9 až 1,0 [kg] <br />
-              </IonCardContent>
-            </IonCard>
-          </IonItem>
+                    <IonCardContent>
+                      Typové číslo: {servo.type_number} <br />
+                      Max. zaťažovací moment: {servo.max_load_torque} [Nm]{" "}
+                      <br />
+                      Doba prestavenia: {servo.adjustment_time}
+                      <br />
+                      Pracovný uhol: {servo.working_angle_from}° až
+                      {servo.working_angle_to}° <br />
+                      Teplota okolia: {servo.temperature_from} až +
+                      {servo.temperature_to} [°C] <br />
+                      Krytie: IP {servo.coverage}
+                      <br />
+                      Pracovná poloha: {servo.working_position} <br />
+                      Hmotnosť: {servo.weight_from} až {servo.weight_to} [kg]
+                      <br />
+                      <IonRouterLink routerLink="/servo/1">
+                        Konfigurovat
+                      </IonRouterLink>
+                    </IonCardContent>
+                  </IonCard>
+                </IonItem>
+              );
+            })}
         </IonList>
       </IonContent>
     </IonPage>
