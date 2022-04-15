@@ -9,5 +9,7 @@ class ServomotorProperty extends Model
 {
     use HasFactory;
 
-    
+    public function servomotorPropertyColumn(){
+        return $this->belongsTo(ServomotorPropertyColumn::class, 'servomotor_property_column_id');
+    }
 }

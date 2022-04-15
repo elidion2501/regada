@@ -24,17 +24,17 @@ class DatabaseSeeder extends Seeder
         }
         for ($k=1; $k < 5; $k++) {
             for ($i=1; $i < 5 ; $i++) {
-                ServomotorProperty::factory()->state(['row_id' => $i , 'servomotor_property_column_id' => $i + (4*$k - 4), 'servomotor_id' => 1,  'code' =>  $k])->create();
+                ServomotorProperty::factory()->state(['row_id' => $i , 'servomotor_property_column_id' => $i + (4*$k - 4), 'servomotor_id' => 1,  'code' =>  $k+50])->create();
             }
         }
         for ($k=1; $k < 5; $k++) {
             for ($i=1; $i < 5 ; $i++) {
-                ServomotorProperty::factory()->state(['row_id' => $i , 'servomotor_property_column_id' => $i + (4*$k - 4), 'servomotor_id' => 1,  'code' =>  $k])->create();
+                ServomotorProperty::factory()->state(['row_id' => $i , 'servomotor_property_column_id' => $i + (4*$k - 4), 'servomotor_id' => 1,  'code' =>  $k+100])->create();
             }
         }
         for ($k=1; $k < 5; $k++) {
             for ($i=1; $i < 5 ; $i++) {
-                ServomotorProperty::factory()->state(['row_id' => $i , 'servomotor_property_column_id' => $i + (4*$k - 4), 'servomotor_id' => 1,  'code' =>  $k ])->create();
+                ServomotorProperty::factory()->state(['row_id' => $i , 'servomotor_property_column_id' => $i + (4*$k - 4), 'servomotor_id' => 1,  'code' =>  $k+150 ])->create();
             }
         }
         for ($k=1; $k < 2; $k++) {

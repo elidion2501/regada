@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ServomotorPropertyColumn extends Model
 {
     use HasFactory;
+
+    public function servomotorProperties(){
+        return $this->hasMany(ServomotorProperty::class, 'servomotor_property_column_id');
+    }
 }

@@ -20,21 +20,37 @@ class ServomotorsPropertyColumnsApiController extends Controller
      */
     public function index(Request $request)
     {
-        $servomotor = ServomotorPropertyColumn::where('servomotor_id', $request->servomotor_id)->get()->sortBy('row_id')->groupBy('column_id')->sortKeys();
+        $servomotors = ServomotorPropertyColumn::where('servomotor_id', $request->servomotor_id)->get()->groupBy('column_id');
+        $servomotorProps = ServomotorProperty::where('servomotor_id', $request->servomotor_id)->get();
 
-        return response()->json(new ServomotorsPropertyColumnsCollection($servomotor));
+        $rows = collect();
+        $rowsNames = collect();
+        $newCollection = collect();
+        foreach ($servomotors as $items) {
+            foreach ($items as $item) {
+                $rows->put($item->row_id, $item->id);
+                $rowsNames->put($item->row_id, $item->name);
+            }
+            $items->put('rows', $rows->sortKeys());
+            $items->put('rowsNames', $rowsNames->sortKeys());
+            $items->put('servomotorProps', $servomotorProps->whereIn('servomotor_property_column_id', $rows)->groupBy('code'));
+            $rows = collect();
+            $rowsNames = collect();
+            $newCollection->push($items);
+        }
+        return response()->json($newCollection);
     }
 
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function ServomotorPropertiesIndex(Request $request)
     {
-        $servomotor = ServomotorProperty::where('servomotor_id', $request->servomotor_id)->get();
+        $servomotor = ServomotorProperty::where('servomotor_id', $request->servomotor_id)->get()->groupBy(['code']);
+        
 
-        return response()->json(new ServomotorsPropertySingleCollection($servomotor));
+        return response()->json($servomotor);
     }
-
 }
