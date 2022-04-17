@@ -20,10 +20,11 @@ import "./ServomotorPage.css";
 const ServomotorPage = () => {
   const [selected, setSelected] = useState<string>("biff");
   const [servoMotor, setServoMotor] = useState<any[]>([]);
+  const [rowColors, setRowColor] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(
-      "http://192.168.118.243:8000/api/servomotor/propertiesColumn?servomotor_id=1",
+      "http://192.168.160.243:8000/api/servomotor/propertiesColumn?servomotor_id=1",
       {
         method: "GET",
         headers: {
@@ -47,6 +48,39 @@ const ServomotorPage = () => {
         // alert(err.message);
       });
   }, []);
+
+  const makeChoice = (data: any) => {
+    let item = rowColors.find(
+      (element: any) =>
+        JSON.stringify(element.column_ids) === JSON.stringify(data.column_ids)
+    );
+
+    if (item) {
+      if (item.rowId !== data.rowId) {
+        let filteredArray = rowColors.filter(
+          (item) => item.rows !== data.rows
+        );
+        setRowColor(filteredArray);
+        setRowColor((currentArray) => [...currentArray, data]);
+      } else {
+        let filteredArray = rowColors.filter(
+          (item) => item.rowId !== data.rowId
+        );
+        setRowColor(filteredArray);
+      }
+    } else {
+      setRowColor((currentArray) => [...currentArray, data]);
+    }
+  };
+
+  const checkColor = (data: any) => {
+    let item = rowColors.find((element: any) => data.rowId === element.rowId);
+    console.log(item);
+    if (item) {
+      return "test-color";
+    }
+    return false;
+  };
 
   return (
     <IonPage>
@@ -96,29 +130,38 @@ const ServomotorPage = () => {
             {servoMotor &&
               servoMotor.map((servo, key) => {
                 return (
-                  <div  key={key}>
-                      <h1 className="ion-text-center ion-nowrap">{key + 1} Bod</h1>
+                  <div key={key}>
+                    <h1 className="ion-text-center ion-nowrap">
+                      {key + 1} Bod
+                    </h1>
 
                     <IonGrid className="ion-nowrap test">
-
                       <IonRow className="ion-nowrap">
                         {servo.rowsNames &&
                           Object.values(servo.rowsNames).map(
                             (servoItem: any, key2) => {
                               return (
-                                <IonCol size='6' class="ion-text-center ion-nowrap" key={key2}>
+                                <IonCol
+                                  size="6"
+                                  class="ion-text-center ion-nowrap"
+                                  key={key2}
+                                >
                                   {servoItem}
                                 </IonCol>
                               );
                             }
                           )}
                       </IonRow>
-
                       {servo.rowsNames &&
                         Object.values(servo.servomotorProps).map(
                           (servomotorPropsItems: any, key3) => {
                             return (
-                              <IonRow className="ion-nowrap" key={key3}>
+                              <IonRow
+                                className={
+                                  "ion-nowrap " 
+                                }
+                                key={key3}
+                              >
                                 {Object.values(servo.rows) &&
                                   Object.values(servo.rows).map(
                                     (row: any, key4: any) => {
@@ -132,8 +175,20 @@ const ServomotorPage = () => {
                                       return (
                                         <IonCol
                                           key={key4}
-                                          size='6'
-                                          class="ion-text-center ion-nowrap"
+                                          size="6"
+                                          class={"ion-text-center ion-nowrap " +
+                                          checkColor({
+                                            rowId: key3 + JSON.stringify(servo?.rows),
+                                          })}
+                                          // @ts-ignore
+                                          onClick={() =>
+                                            makeChoice({
+                                              rowId:
+                                                key3 +
+                                                JSON.stringify(servo?.rows),
+                                              rows: JSON.stringify(servo?.rows),
+                                            })
+                                          }
                                         >
                                           {test ? test.text : "-"}
                                         </IonCol>

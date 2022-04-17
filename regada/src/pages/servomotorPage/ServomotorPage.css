@@ -9,3 +9,8 @@ ion-col {
   .test{
     overflow-x: scroll!important;
   }
+
+  .test-color{
+    background: yellow;
+    color: black;
+  }
