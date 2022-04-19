@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import "./ServomotorPage.css";
 
 const ServomotorPage = () => {
-  const [selected, setSelected] = useState<string>("biff");
+  const [selected, setSelected] = useState<any[]>([0]);
   const [servoMotor, setServoMotor] = useState<any[]>([]);
   const [rowColors, setRowColor] = useState<any[]>([]);
 
@@ -49,39 +49,75 @@ const ServomotorPage = () => {
       });
   }, []);
 
-  const makeChoice = (data: any) => {
+  const makeChoice = (data: any, key: any) => {
+    let checkKey = rowColors.find((element: any) => element.key > key);
+
+    if (checkKey) {
+      return;
+    }
+
     let item = rowColors.find(
       (element: any) =>
-        JSON.stringify(element.column_ids) === JSON.stringify(data.column_ids)
+        JSON.stringify(element.rows) === JSON.stringify(data.rows)
     );
 
     if (item) {
       if (item.rowId !== data.rowId) {
-        let filteredArray = rowColors.filter(
-          (item) => item.rows !== data.rows
-        );
+        let filteredArray = rowColors.filter((item) => item.rows !== data.rows);
         setRowColor(filteredArray);
         setRowColor((currentArray) => [...currentArray, data]);
+        if (selected.find((element) => element === key + 1) !== key + 1) {
+          setSelected((currentArra) => [...currentArra, key + 1]);
+        }
       } else {
+        let filteredSelected = selected.filter((item) => item <= key);
+        setSelected(filteredSelected);
+
         let filteredArray = rowColors.filter(
-          (item) => item.rowId !== data.rowId
+          (item) => item.rowId !== data.rowId && item.key <= key
         );
         setRowColor(filteredArray);
       }
     } else {
       setRowColor((currentArray) => [...currentArray, data]);
+      setSelected((currentArra) => [...currentArra, key + 1]);
     }
   };
 
   const checkColor = (data: any) => {
     let item = rowColors.find((element: any) => data.rowId === element.rowId);
-    console.log(item);
     if (item) {
       return "test-color";
     }
     return false;
   };
 
+  const getKeyByValue = (object: any, value: any) => {
+    return Object.keys(object).find((key) => object[key] === value);
+  };
+
+  const getPrice = () => {
+    let total = 0;
+    const sum = rowColors.map((value, key) => {
+      return (total = value.price + total);
+    });
+    const a = sum.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+    return a;
+  };
+
+  const checkIfCodeIsAllowed = (key2: any, code: any) => {
+    console.log(code);
+    let item = rowColors.find((element) => element.key === key2 - 1);
+    if (
+      item &&
+      Object.values(item.allowedCodes).find((element2) => element2 === code)
+    ) {
+      return true;
+    }
+    return false;
+  };
   return (
     <IonPage>
       <IonHeader>
@@ -129,80 +165,160 @@ const ServomotorPage = () => {
             <h1 className="ion-text-center">Konfiguracia</h1>
             {servoMotor &&
               servoMotor.map((servo, key) => {
-                return (
-                  <div key={key}>
-                    <h1 className="ion-text-center ion-nowrap">
-                      {key + 1} Bod
-                    </h1>
+                if (selected.find((element: any) => key === element) === key) {
+                  return (
+                    <div key={key}>
+                      <h1 className="ion-text-center ion-nowrap">
+                        {key + 1} Bod
+                      </h1>
 
-                    <IonGrid className="ion-nowrap test">
-                      <IonRow className="ion-nowrap">
+                      <IonGrid className="ion-nowrap test">
+                        <IonRow className="ion-nowrap">
+                          {servo.rowsNames &&
+                            Object.values(servo.rowsNames).map(
+                              (servoItem: any, key2) => {
+                                return (
+                                  <IonCol
+                                    size="6"
+                                    class="ion-text-center ion-nowrap"
+                                    key={key2}
+                                  >
+                                    {servoItem}
+                                  </IonCol>
+                                );
+                              }
+                            )}
+                          <IonCol size="4" class="ion-text-center ion-nowrap">
+                            price
+                          </IonCol>
+                        </IonRow>
                         {servo.rowsNames &&
-                          Object.values(servo.rowsNames).map(
-                            (servoItem: any, key2) => {
-                              return (
-                                <IonCol
-                                  size="6"
-                                  class="ion-text-center ion-nowrap"
-                                  key={key2}
-                                >
-                                  {servoItem}
-                                </IonCol>
-                              );
+                          Object.values(servo.servomotorProps).map(
+                            (servomotorPropsItems: any, key3) => {
+                              if (
+                                checkIfCodeIsAllowed(
+                                  key,
+                                  getKeyByValue(
+                                    servo.servomotorProps,
+                                    servomotorPropsItems
+                                  )
+                                ) ||
+                                key === 0
+                              ) {
+                                return (
+                                  <IonRow className={"ion-nowrap "} key={key3}>
+                                    {Object.values(servo.rows) &&
+                                      Object.values(servo.rows).map(
+                                        (row: any, key4: any) => {
+                                          let test: any = Object.values(
+                                            servomotorPropsItems
+                                          ).find(
+                                            (element: any) =>
+                                              element.servomotor_property_column_id ===
+                                              row
+                                          );
+                                          return (
+                                            <IonCol
+                                              key={key4}
+                                              size="6"
+                                              class={
+                                                "ion-text-center ion-nowrap " +
+                                                checkColor({
+                                                  rowId:
+                                                    key3 +
+                                                    JSON.stringify(servo?.rows),
+                                                })
+                                              }
+                                              onClick={() =>
+                                                makeChoice(
+                                                  {
+                                                    allowedCodes:
+                                                      servomotorPropsItems.allowed_codes,
+                                                    price:
+                                                      servomotorPropsItems.price,
+                                                    code: getKeyByValue(
+                                                      servo.servomotorProps,
+                                                      servomotorPropsItems
+                                                    ),
+                                                    column_id: servo.columnId,
+                                                    servomotorId: 1,
+                                                    key: key,
+                                                    rowId:
+                                                      key3 +
+                                                      JSON.stringify(
+                                                        servo?.rows
+                                                      ),
+                                                    rows: JSON.stringify(
+                                                      servo?.rows
+                                                    ),
+                                                  },
+                                                  key
+                                                )
+                                              }
+                                            >
+                                              {test ? test.text : "-"}
+                                            </IonCol>
+                                          );
+                                        }
+                                      )}
+                                    <IonCol
+                                      size="4"
+                                      class={
+                                        "ion-text-center ion-nowrap " +
+                                        checkColor({
+                                          rowId:
+                                            key3 + JSON.stringify(servo?.rows),
+                                        })
+                                      }
+                                      onClick={() =>
+                                        makeChoice(
+                                          {
+                                            allowedCodes:
+                                              servomotorPropsItems.allowed_codes,
+                                            price: servomotorPropsItems.price,
+                                            code: getKeyByValue(
+                                              servo.servomotorProps,
+                                              servomotorPropsItems
+                                            ),
+                                            column_id: servo.columnId,
+                                            servomotorId: 1,
+                                            key: key,
+                                            rowId:
+                                              key3 +
+                                              JSON.stringify(servo?.rows),
+                                            rows: JSON.stringify(servo?.rows),
+                                          },
+                                          key
+                                        )
+                                      }
+                                    >
+                                      {servomotorPropsItems.price}
+                                    </IonCol>
+                                  </IonRow>
+                                );
+                              } else {
+                                return <div key={key3}></div>;
+                              }
                             }
                           )}
-                      </IonRow>
-                      {servo.rowsNames &&
-                        Object.values(servo.servomotorProps).map(
-                          (servomotorPropsItems: any, key3) => {
-                            return (
-                              <IonRow
-                                className={
-                                  "ion-nowrap " 
-                                }
-                                key={key3}
-                              >
-                                {Object.values(servo.rows) &&
-                                  Object.values(servo.rows).map(
-                                    (row: any, key4: any) => {
-                                      let test: any = Object.values(
-                                        servomotorPropsItems
-                                      ).find(
-                                        (element: any) =>
-                                          element.servomotor_property_column_id ===
-                                          row
-                                      );
-                                      return (
-                                        <IonCol
-                                          key={key4}
-                                          size="6"
-                                          class={"ion-text-center ion-nowrap " +
-                                          checkColor({
-                                            rowId: key3 + JSON.stringify(servo?.rows),
-                                          })}
-                                          // @ts-ignore
-                                          onClick={() =>
-                                            makeChoice({
-                                              rowId:
-                                                key3 +
-                                                JSON.stringify(servo?.rows),
-                                              rows: JSON.stringify(servo?.rows),
-                                            })
-                                          }
-                                        >
-                                          {test ? test.text : "-"}
-                                        </IonCol>
-                                      );
-                                    }
-                                  )}
-                              </IonRow>
-                            );
-                          }
-                        )}
-                    </IonGrid>
-                  </div>
-                );
+                      </IonGrid>
+                    </div>
+                  );
+                } else {
+                  return <div key={key}></div>;
+                }
               })}
+
+            <h1 className="ion-text-center">Price: {getPrice()} </h1>
+            <h1 className="ion-text-center">
+              Code:
+              {rowColors.map((value, key) => {
+                if (key === 2) {
+                  return "-" + value.code;
+                }
+                return value.code;
+              })}
+            </h1>
 
             {/* <h1 className="ion-text-center">Diagram</h1>
 

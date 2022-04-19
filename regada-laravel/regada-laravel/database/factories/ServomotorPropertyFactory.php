@@ -18,7 +18,7 @@ class ServomotorPropertyFactory extends Factory
             'servomotor_id' => Servomotor::factory(),
             'row_id' => rand(1,5),
             'servomotor_property_column_id' => rand(1,5),
-            'price' => rand(1,8),
+            'price' => 5,
             'code' => rand(1,8),
             'text' => $this->faker->name()
         ];

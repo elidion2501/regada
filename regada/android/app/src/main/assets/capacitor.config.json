@@ -6,8 +6,6 @@
 	"npmClient": "npm",
 	"cordova": {},
 	"server": {
-		"url": "http://192.168.160.243:8100",
-		"cleartext": true,
-		"originalUrl": "http://192.168.160.243:3000"
+		"cleartext": true
 	}
 }
