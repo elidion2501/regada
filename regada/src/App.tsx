@@ -51,7 +51,7 @@ const App: React.FC = () => (
           <Route exact path="/servo">
             <Servomotors />
           </Route>
-          <Route exact path="/servo/:id">
+          <Route exact path="/servo/:id" >
             <ServomotorPage />
           </Route>
           <Route exact path="/">

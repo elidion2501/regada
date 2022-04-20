@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ServomotorCollection;
+use App\Http\Resources\ServomotorResource;
 use App\Models\Servomotor;
 use Illuminate\Http\Request;
 
@@ -38,9 +39,10 @@ class ServomotorsApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $servomotor = Servomotor::find($request->servomotor_id);
+        return response()->json(new ServomotorResource($servomotor));
     }
 
 

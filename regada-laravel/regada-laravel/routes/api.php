@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/servomotors', [ServomotorsApiController::class, 'index']);
+Route::get('/servomotor', [ServomotorsApiController::class, 'show']);
 Route::get('/servomotor/propertiesColumn', [ServomotorsPropertyColumnsApiController::class, 'index']);
 Route::get('/servomotor/properties', [ServomotorsPropertyColumnsApiController::class, 'ServomotorPropertiesIndex']);

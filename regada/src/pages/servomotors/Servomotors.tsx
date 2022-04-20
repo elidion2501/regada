@@ -21,7 +21,7 @@ const Servomotors = () => {
   const [servoMotors, setServoMotors] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("http://192.168.160.243:8000/api/servomotors", {
+    fetch("http://192.168.15.102:8000/api/servomotors", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,6 @@ const Servomotors = () => {
       </IonHeader>
       <IonContent fullscreen>
         <h1 className="ion-text-center">Tu budu filtre</h1>
-        <IonRouterLink routerLink="/servo/1">Konfigurovat</IonRouterLink>
         
         <IonList>
           {servoMotors &&
@@ -79,12 +78,12 @@ const Servomotors = () => {
                       {servo.working_angle_to}° <br /> 
                       Teplota okolia: {servo.temperature_from} až +
                       {servo.temperature_to} [°C] <br />
-                      Krytie: IP {servo.coverage}
+                      Krytie: IP {servo.coverage_from} {servo.coverage_to && ('do IP ' + servo.coverage_to )} 
                       <br />
                       Pracovná poloha: {servo.working_position} <br />
                       Hmotnosť: {servo.weight_from} až {servo.weight_to} [kg]
                       <br />
-                      <IonRouterLink routerLink="/servo/1">
+                      <IonRouterLink routerLink="/servo/1"  >
                         Konfigurovat
                       </IonRouterLink>
                     </IonCardContent>

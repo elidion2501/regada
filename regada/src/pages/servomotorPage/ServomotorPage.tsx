@@ -17,14 +17,39 @@ import {
 import { useEffect, useState } from "react";
 import "./ServomotorPage.css";
 
-const ServomotorPage = () => {
+const ServomotorPage = (props: any) => {
   const [selected, setSelected] = useState<any[]>([0]);
   const [servoMotor, setServoMotor] = useState<any[]>([]);
   const [rowColors, setRowColor] = useState<any[]>([]);
+  const [servoMotorShow, setServoMotorShow] = useState<any>();
+
+  useEffect(() => {
+    fetch("http://192.168.15.102:8000/api/servomotor?servomotor_id=1", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            throw new Error(data);
+          });
+        }
+      })
+      .then((data) => {
+        setServoMotorShow(data);
+      })
+      .catch((err) => {
+        // alert(err.message);
+      });
+  }, []);
 
   useEffect(() => {
     fetch(
-      "http://192.168.160.243:8000/api/servomotor/propertiesColumn?servomotor_id=1",
+      "http://192.168.15.102:8000/api/servomotor/propertiesColumn?servomotor_id=1",
       {
         method: "GET",
         headers: {
@@ -101,14 +126,11 @@ const ServomotorPage = () => {
     const sum = rowColors.map((value, key) => {
       return (total = value.price + total);
     });
-    const a = sum.reduce(function (a, b) {
-      return a + b;
-    }, 0);
-    return a;
+
+    return sum[sum.length - 1];
   };
 
   const checkIfCodeIsAllowed = (key2: any, code: any) => {
-    console.log(code);
     let item = rowColors.find((element) => element.key === key2 - 1);
     if (
       item &&
@@ -118,6 +140,7 @@ const ServomotorPage = () => {
     }
     return false;
   };
+
   return (
     <IonPage>
       <IonHeader>
@@ -131,35 +154,52 @@ const ServomotorPage = () => {
       <IonContent fullscreen>
         <IonRow>
           <IonCol>
-            <IonImg src="https://www.regada.sk/public/media/image/picture/13_bd65c7f7f726cc31702ab1b627f62fd1.jpeg" />
-            <h1 className="ion-text-center">
-              Elektrický servopohon jednootáčkový SP MIKRO
-            </h1>
+            <IonImg src={servoMotorShow?.img_path}  />
+            <h1 className="ion-text-center">{servoMotorShow?.name}</h1>
 
             <IonList lines="none">
               <IonItem>
-                <IonLabel>Typové číslo: 260</IonLabel>
+                <IonLabel>Typové číslo: {servoMotorShow?.type_number}</IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Max. zaťažovací moment: 8</IonLabel>
+                <IonLabel>
+                  {" "}
+                  Max. zaťažovací moment: {
+                    servoMotorShow?.max_load_torque
+                  } [Nm]{" "}
+                </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Doba prestavenia: 120</IonLabel>
+                <IonLabel>
+                  Doba prestavenia: {servoMotorShow?.adjustment_time}
+                </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Pracovný uhol: 60° až 120°</IonLabel>
+                <IonLabel>
+                  {" "}
+                  Pracovný uhol: {servoMotorShow?.working_angle_from}° až
+                  {servoMotorShow?.working_angle_to}°{" "}
+                </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Teplota okolia: -20 až +60</IonLabel>
+                <IonLabel>
+                  Teplota okolia: {servoMotorShow?.temperature_from} až +
+                  {servoMotorShow?.temperature_to} [°C]
+                </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Krytie: IP 65</IonLabel>
+                <IonLabel> Krytie: IP {servoMotorShow?.coverage_from} {servoMotorShow?.coverage_to && ('do IP ' + servoMotorShow?.coverage_to )} </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Pracovná poloha: ľubovoľná </IonLabel>
+                <IonLabel>
+                  Pracovná poloha: {servoMotorShow?.working_position}
+                </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel>Hmotnosť: 0,9 až 1,0</IonLabel>
+                <IonLabel>
+                  Hmotnosť: {servoMotorShow?.weight_from} až{" "}
+                  {servoMotorShow?.weight_to} [kg]
+                </IonLabel>
               </IonItem>
             </IonList>
             <h1 className="ion-text-center">Konfiguracia</h1>
@@ -188,8 +228,8 @@ const ServomotorPage = () => {
                                 );
                               }
                             )}
-                          <IonCol size="4" class="ion-text-center ion-nowrap">
-                            price
+                          <IonCol size="6" class="ion-text-center ion-nowrap">
+                            Cena
                           </IonCol>
                         </IonRow>
                         {servo.rowsNames &&
@@ -262,7 +302,7 @@ const ServomotorPage = () => {
                                         }
                                       )}
                                     <IonCol
-                                      size="4"
+                                      size="6"
                                       class={
                                         "ion-text-center ion-nowrap " +
                                         checkColor({
@@ -313,8 +353,11 @@ const ServomotorPage = () => {
             <h1 className="ion-text-center">
               Code:
               {rowColors.map((value, key) => {
-                if (key === 2) {
+                if (key === 1) {
                   return "-" + value.code;
+                }
+                if (key === 6) {
+                  return "/" + value.code;
                 }
                 return value.code;
               })}

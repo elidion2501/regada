@@ -23,7 +23,8 @@ class CreateServomotorsTable extends Migration
             $table->integer('working_angle_to');
             $table->integer('temperature_from');
             $table->integer('temperature_to');
-            $table->integer('coverage');
+            $table->integer('coverage_from');
+            $table->integer('coverage_to');
             $table->string('working_position');
             $table->integer('weight_from');
             $table->integer('weight_to');
