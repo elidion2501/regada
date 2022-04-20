@@ -28,27 +28,27 @@ const Servomotors = () => {
   const [adjustmentTime, setAdjustmentTime] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 0, upper: 0 });
+  }>({ lower: 0, upper: 1000 });
   const [loadTorque, setLoadTorque] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 0, upper: 0 });
+  }>({ lower: 0, upper: 1000 });
   const [workingAngle, setWorkingAngle] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 0, upper: 0 });
+  }>({ lower: 0, upper: 360 });
   const [temperature, setTemperature] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: -100, upper: 0 });
+  }>({ lower: -100, upper: 100 });
   const [coverage, setCoverage] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 0, upper: 0 });
+  }>({ lower: 60, upper: 69 });
   const [weight, setWeight] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 0, upper: 0 });
+  }>({ lower: 1, upper: 1000 });
 
   useEffect(() => {
     fetch("https://main.help-ukraine.sk/api/servomotors" + link, {
@@ -105,12 +105,12 @@ const Servomotors = () => {
 
   const wipeLink = () => {
     setLink("?")
-    setAdjustmentTime({ lower: 0, upper: 0 });
-    setLoadTorque({ lower: 0, upper: 0 });
-    setWorkingAngle({ lower: 0, upper: 0 });
-    setTemperature({ lower: -100, upper: 0 });
-    setCoverage({ lower: 0, upper: 0 });
-    setWeight({ lower: 0, upper: 0 });
+    setAdjustmentTime({ lower: 0, upper: 1000 });
+    setLoadTorque({ lower: 0, upper: 1000 });
+    setWorkingAngle({ lower: 0, upper: 360 });
+    setTemperature({ lower: -100, upper: 100 });
+    setCoverage({ lower: 60, upper: 69 });
+    setWeight({ lower: 1, upper: 1000 });
   };
   return (
     <IonPage>
@@ -133,8 +133,9 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
+                  value={{lower:loadTorque.lower, upper:loadTorque.upper}}
                   min={0}
-                  max={500}
+                  max={1000}
                   step={5}
                   snaps={false}
                   onIonChange={(e) => setLoadTorque(e.detail.value as any)}
@@ -149,8 +150,9 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
+                  value={{lower:adjustmentTime.lower, upper:adjustmentTime.upper}}
                   min={0}
-                  max={500}
+                  max={1000}
                   step={5}
                   snaps={false}
                   onIonChange={(e) => setAdjustmentTime(e.detail.value as any)}
@@ -166,6 +168,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
+                  value={{lower:workingAngle.lower, upper:workingAngle.upper}}
                   min={0}
                   max={360}
                   step={5}
@@ -183,6 +186,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
+                  value={{lower:temperature.lower, upper:temperature.upper}}
                   min={-100}
                   max={100}
                   step={5}
@@ -199,6 +203,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
+                  value={{lower:coverage.lower, upper:coverage.upper}}
                   min={60}
                   max={69}
                   step={1}
@@ -215,8 +220,9 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
+                  value={{lower:weight.lower, upper:weight.upper}}
                   min={1}
-                  max={100}
+                  max={1000}
                   step={5}
                   snaps={false}
                   onIonChange={(e) => setWeight(e.detail.value as any)}
