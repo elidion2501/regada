@@ -6,7 +6,7 @@
 	"npmClient": "npm",
 	"cordova": {},
 	"server": {
-		"url" : "https://merry-souffle-b827ef.netlify.app",
+		"url" : "http://192.168.15.102:3000",
 		"cleartext": true
 	}
 }

@@ -14,20 +14,20 @@ class ServomotorFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Elektrický servopohon jednootáčkový SP 1',
-            'working_position' => 'ľubovoľná',
-            'img_path' => 'http://www.regada.sk/public/media/image/picture/13_d21b7204cc46e0499b6c2ec4e6536d5f.jpeg',
-            'type_number' =>281,
-            'max_load_torque' =>10 ,
-            'adjustment_time' => 80,
-            'working_angle_from' => 60,
-            'working_angle_to' => 360,
-            'temperature_from' => -60,
-            'temperature_to' => 55,
+            'name' => $this->faker->name(),
+            'working_position' => $this->faker->name(),
+            'img_path' => 'https://www.regada.sk/public/media/image/picture/13_bd65c7f7f726cc31702ab1b627f62fd1.jpeg',
+            'type_number' =>rand(0,999),
+            'max_load_torque' =>rand(0,999),
+            'adjustment_time' =>rand(0,999),
+            'working_angle_from' =>rand(0,500),
+            'working_angle_to' =>rand(500,999),
+            'temperature_from' =>rand(0,500),
+            'temperature_to' =>rand(500,999),
             'coverage_from' => 67,
             'coverage_to' => 68,
-            'weight_from' => 6.5,
-            'weight_to' =>8.3,
+            'weight_from' =>rand(0,500),
+            'weight_to' =>rand(500,999),
         ];
     }
 }

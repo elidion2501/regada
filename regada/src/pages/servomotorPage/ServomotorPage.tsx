@@ -24,7 +24,7 @@ const ServomotorPage = (props: any) => {
   const [servoMotorShow, setServoMotorShow] = useState<any>();
 
   useEffect(() => {
-    fetch("https://main.help-ukraine.sk/api/servomotor?servomotor_id=1", {
+    fetch("http://192.168.15.102:8000/api/servomotor?servomotor_id=1", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const ServomotorPage = (props: any) => {
 
   useEffect(() => {
     fetch(
-      "https://main.help-ukraine.sk/api/servomotor/propertiesColumn?servomotor_id=1",
+      "http://192.168.15.102:8000/api/servomotor/propertiesColumn?servomotor_id=1",
       {
         method: "GET",
         headers: {
