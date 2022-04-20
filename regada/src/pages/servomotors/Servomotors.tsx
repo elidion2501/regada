@@ -51,7 +51,7 @@ const Servomotors = () => {
   }>({ lower: 0, upper: 0 });
 
   useEffect(() => {
-    fetch("http://192.168.15.102:8000/api/servomotors" + link, {
+    fetch("https://main.help-ukraine.sk/api/servomotors" + link, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
