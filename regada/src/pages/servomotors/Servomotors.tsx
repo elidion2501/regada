@@ -21,7 +21,7 @@ const Servomotors = () => {
   const [servoMotors, setServoMotors] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("http://192.168.15.102:8000/api/servomotors", {
+    fetch("https://main.help-ukraine.sk/api/servomotors", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
