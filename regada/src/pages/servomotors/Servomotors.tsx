@@ -40,7 +40,7 @@ const Servomotors = () => {
   const [temperature, setTemperature] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 0, upper: 0 });
+  }>({ lower: -100, upper: 0 });
   const [coverage, setCoverage] = useState<{
     lower: number;
     upper: number;
@@ -101,6 +101,16 @@ const Servomotors = () => {
         "&weightMax=" +
         weight.upper
     );
+  };
+
+  const wipeLink = () => {
+    setLink("?")
+    setAdjustmentTime({ lower: 0, upper: 0 });
+    setLoadTorque({ lower: 0, upper: 0 });
+    setWorkingAngle({ lower: 0, upper: 0 });
+    setTemperature({ lower: -100, upper: 0 });
+    setCoverage({ lower: 0, upper: 0 });
+    setWeight({ lower: 0, upper: 0 });
   };
   return (
     <IonPage>
@@ -225,11 +235,11 @@ const Servomotors = () => {
               >
                 Filtrovat
               </IonButton>
-              
+
               <IonButton
                 expand="full"
                 color="secondary"
-                onClick={() => setLink('?')}
+                onClick={() => wipeLink()}
               >
                 Nulovat
               </IonButton>
