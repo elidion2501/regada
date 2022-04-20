@@ -225,6 +225,14 @@ const Servomotors = () => {
               >
                 Filtrovat
               </IonButton>
+              
+              <IonButton
+                expand="full"
+                color="secondary"
+                onClick={() => setLink('?')}
+              >
+                Nulovat
+              </IonButton>
             </IonList>
           </IonAccordion>
         </IonAccordionGroup>
