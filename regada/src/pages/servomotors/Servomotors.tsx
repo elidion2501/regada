@@ -124,7 +124,7 @@ const Servomotors = () => {
       </IonHeader>
       <IonContent fullscreen>
         <IonAccordionGroup>
-          <IonAccordion value="colors">
+          <IonAccordion>
             <IonItem slot="header">
               <IonLabel>Filtre</IonLabel>
             </IonItem>
@@ -133,7 +133,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  value={{lower:loadTorque.lower, upper:loadTorque.upper}}
+                  // value={{lower:loadTorque.lower, upper:loadTorque.upper}}
                   min={0}
                   max={1000}
                   step={5}
@@ -150,7 +150,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  value={{lower:adjustmentTime.lower, upper:adjustmentTime.upper}}
+                  // value={{lower:adjustmentTime.lower, upper:adjustmentTime.upper}}
                   min={0}
                   max={1000}
                   step={5}
@@ -168,7 +168,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  value={{lower:workingAngle.lower, upper:workingAngle.upper}}
+                  // value={{lower:workingAngle.lower, upper:workingAngle.upper}}
                   min={0}
                   max={360}
                   step={5}
@@ -186,7 +186,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  value={{lower:temperature.lower, upper:temperature.upper}}
+                  // value={{lower:temperature.lower, upper:temperature.upper}}
                   min={-100}
                   max={100}
                   step={5}
@@ -203,7 +203,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  value={{lower:coverage.lower, upper:coverage.upper}}
+                  // value={{lower:coverage.lower, upper:coverage.upper}}
                   min={60}
                   max={69}
                   step={1}
@@ -220,7 +220,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  value={{lower:weight.lower, upper:weight.upper}}
+                  // value={{lower:weight.lower, upper:weight.upper}}
                   min={1}
                   max={1000}
                   step={5}
@@ -233,6 +233,7 @@ const Servomotors = () => {
                   Minimalna: {weight.lower} Maximalna: {weight.upper}
                 </IonLabel>
               </IonItem>
+              <IonItem>
 
               <IonButton
                 expand="full"
@@ -249,6 +250,8 @@ const Servomotors = () => {
               >
                 Nulovat
               </IonButton>
+              </IonItem>
+
             </IonList>
           </IonAccordion>
         </IonAccordionGroup>

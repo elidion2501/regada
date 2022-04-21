@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Elektrický servopohon jednootáčkový SP 1',
                 'working_position' => 'ľubovoľná',
-                'img_path' => 'http://www.regada.sk/public/media/image/picture/13_d21b7204cc46e0499b6c2ec4e6536d5f.jpeg',
+                'img_path' => 'https://www.regada.sk/public/media/image/picture/13_d21b7204cc46e0499b6c2ec4e6536d5f.jpeg',
                 'type_number' =>281,
                 'max_load_torque' =>10 ,
                 'adjustment_time' => 80,
