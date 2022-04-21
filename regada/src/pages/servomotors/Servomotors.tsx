@@ -133,7 +133,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  // value={{lower:loadTorque.lower, upper:loadTorque.upper}}
+                  value={{lower:loadTorque.lower, upper:loadTorque.upper}}
                   min={0}
                   max={1000}
                   step={5}
@@ -150,7 +150,7 @@ const Servomotors = () => {
               <IonItem>
                 <IonRange
                   dualKnobs={true}
-                  // value={{lower:adjustmentTime.lower, upper:adjustmentTime.upper}}
+                  value={{lower:adjustmentTime.lower, upper:adjustmentTime.upper}}
                   min={0}
                   max={1000}
                   step={5}
