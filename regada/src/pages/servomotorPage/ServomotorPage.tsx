@@ -16,6 +16,10 @@ import {
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import "./ServomotorPage.css";
+import z1a from "./z1a.png";
+import z5a from "./z5a.png";
+import z11a from "./z11a.png";
+import { saveAs } from "file-saver";
 
 const ServomotorPage = (props: any) => {
   const [selected, setSelected] = useState<any[]>([0]);
@@ -154,7 +158,7 @@ const ServomotorPage = (props: any) => {
       <IonContent fullscreen>
         <IonRow>
           <IonCol>
-            <IonImg src={servoMotorShow?.img_path}  />
+            <IonImg src={servoMotorShow?.img_path} />
             <h1 className="ion-text-center">{servoMotorShow?.name}</h1>
 
             <IonList lines="none">
@@ -188,7 +192,12 @@ const ServomotorPage = (props: any) => {
                 </IonLabel>
               </IonItem>
               <IonItem>
-                <IonLabel> Krytie: IP {servoMotorShow?.coverage_from} {servoMotorShow?.coverage_to && ('do IP ' + servoMotorShow?.coverage_to )} </IonLabel>
+                <IonLabel>
+                  {" "}
+                  Krytie: IP {servoMotorShow?.coverage_from}{" "}
+                  {servoMotorShow?.coverage_to &&
+                    "do IP " + servoMotorShow?.coverage_to}{" "}
+                </IonLabel>
               </IonItem>
               <IonItem>
                 <IonLabel>
@@ -202,14 +211,14 @@ const ServomotorPage = (props: any) => {
                 </IonLabel>
               </IonItem>
             </IonList>
-            <h1 className="ion-text-center">Konfiguracia</h1>
+            <h1 className="ion-text-center">Konfigurácia</h1>
             {servoMotor &&
               servoMotor.map((servo, key) => {
                 if (selected.find((element: any) => key === element) === key) {
                   return (
                     <div key={key}>
                       <h1 className="ion-text-center ion-nowrap">
-                        {key + 1} Bod
+                        {key + 1}. pozícia v kóde
                       </h1>
 
                       <IonGrid className="ion-nowrap test">
@@ -349,9 +358,10 @@ const ServomotorPage = (props: any) => {
                 }
               })}
 
-            <h1 className="ion-text-center">Price: {getPrice()} </h1>
+            <h1 className="ion-text-center">Cena: {getPrice()} </h1>
             <h1 className="ion-text-center">
-              Code:
+            Kód:
+              {servoMotorShow?.type_number}.
               {rowColors.map((value, key) => {
                 if (key === 1) {
                   return "-" + value.code;
@@ -362,10 +372,27 @@ const ServomotorPage = (props: any) => {
                 return value.code;
               })}
             </h1>
+            {rowColors.find((element) => element.key === 6) && (
+              <div className="ion-text-center">
+                Poslať predajcovi e-mail  
+                <a className="ion-text-center" href={"mailto:mikita@regada.sk?body=objednávkový kód:" + servoMotorShow?.type_number + '.' +rowColors.map((value, key) => {
+                if (key === 1) {
+                  return "-" + value.code;
+                }
+                if (key === 6) {
+                  return "/" + value.code;
+                }
+                return value.code;
+              })}>mikita@regada.sk</a>
+                <h1 className="ion-text-center">Schémy zapojenia:</h1>
+                <IonImg src={z1a} />
+                <IonImg src={z5a} />
+                <IonImg src={z11a} />
+              </div>
+            )}
 
             {/* <h1 className="ion-text-center">Diagram</h1>
 
-            <IonImg src="https://elektropohony.sk/wp-content/uploads/2020/01/servopohon-DA200-zapojenie-pre-polohovanie-MTM-Electric-Motors-s.r.o..jpg" />
 
             <IonItem>Kod:281.1-234567/89 Cena: 2555$ </IonItem> */}
             {/* <IonItem>
