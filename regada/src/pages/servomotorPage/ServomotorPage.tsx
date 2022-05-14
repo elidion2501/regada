@@ -378,6 +378,7 @@ const ServomotorPage = (props: any) => {
                 <a className="ion-text-center" href={"mailto:mikita@regada.sk?body=objednávkový kód:" + servoMotorShow?.type_number + '.' +rowColors.map((value, key) => {
                 if (key === 1) {
                   return "-" + value.code;
+                  
                 }
                 if (key === 6) {
                   return "/" + value.code;

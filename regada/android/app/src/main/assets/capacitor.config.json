@@ -6,7 +6,7 @@
 	"npmClient": "npm",
 	"cordova": {},
 	"server": {
-		"url": "https://merry-souffle-b827ef.netlify.app",
-		"cleartext": true
+		"cleartext": true,
+		"url": "https://merry-souffle-b827ef.netlify.app"
 	}
 }
