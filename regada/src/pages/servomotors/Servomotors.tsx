@@ -44,7 +44,7 @@ const Servomotors = () => {
   const [coverage, setCoverage] = useState<{
     lower: number;
     upper: number;
-  }>({ lower: 60, upper: 69 });
+  }>({ lower: 40, upper: 69 });
   const [weight, setWeight] = useState<{
     lower: number;
     upper: number;
@@ -109,7 +109,7 @@ const Servomotors = () => {
     setLoadTorque({ lower: 0, upper: 1000 });
     setWorkingAngle({ lower: 0, upper: 360 });
     setTemperature({ lower: -100, upper: 100 });
-    setCoverage({ lower: 60, upper: 69 });
+    setCoverage({ lower: 40, upper: 69 });
     setWeight({ lower: 1, upper: 1000 });
   };
   return (
